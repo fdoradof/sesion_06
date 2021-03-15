@@ -1,6 +1,6 @@
 ---
 - name: "Demostracion de handlers"
-  force_handlers: yes
+# force_handlers: yes
   hosts: nodos
   vars:
     paquetes:

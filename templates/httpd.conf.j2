@@ -43,7 +43,9 @@ ServerRoot "/etc/httpd"
 #
 #Listen 12.34.56.78:80
 ## Puertos de escucha insertados por ansible
-
+{% for port in http_ports %}
+Listen {{ port }}
+{% endfor %}
 
 
 
@@ -356,6 +358,14 @@ EnableSendfile on
 
 ## Ansible Virtual Hosts
 
+{% for port in http_ports %}
+
+<VirtualHost *:{{ port }}>
+    DocumentRoot "/var/www/html/ansible-service-{{ port }}"
+    ServerName www.ansible-service-{{ port }}.example.com
+</VirtualHost>
+
+{% endfor %}
 
 
 # Supplemental configuration

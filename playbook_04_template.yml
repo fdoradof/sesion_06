@@ -30,7 +30,17 @@
         state: enabled
       loop: "{{ http_ports }}"
         
-
+    - name: "Insertamos el template del index.html"
+      template:
+        src: templates/index.html.j2
+        dest: "/var/www/html/ansible-service-{{ item }}"
+      loop: "{{ http_ports }}"
+    
+    - name: "Modificar la conguracion del Apache"
+      template:
+        src: templates/httpd.conf.j2
+        dest: /etc/httpd/conf/httpd.conf
+      notify: restart_apache
 
   handlers:
     - name: "restart_apache"
