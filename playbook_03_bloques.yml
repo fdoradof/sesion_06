@@ -1,5 +1,5 @@
 ---
-- name: "Demostracion de una delegacion de bloques"
+- name: "Demostracion de bloques"
   hosts: nodos
   vars:
     paquetes:

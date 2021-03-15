@@ -1,0 +1,31 @@
+---
+- name: "Demostracion de Templates"
+  hosts: nodos
+  vars:
+    - http_ports:
+        - 80
+        - 81
+        - 8080
+        - 8009
+        - 9000
+  
+  tasks:
+    - name: "Instalacion de apache"
+      yum:
+        name: httpd
+        state: present
+      notify: "restart_apache"
+    
+    - name: "Creacion de los directorios de los puertos"
+      file:
+        path: "/var/www/html/ansible-service-{{ item }}"
+        state: directory
+      loop: "{{ http_ports }}"
+
+
+  handlers:
+    - name: "restart_apache"
+      service:
+        name: httpd
+        state: restarted
+        enabled: yes

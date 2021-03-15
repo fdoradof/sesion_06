@@ -1,5 +1,5 @@
 ---
-- name: "Laboratorio de Registros"
+- name: "Demostracion de bloques02"
   hosts: nodo_01
   tasks:
     - name: "Registrar la hora actual del nodo"
@@ -27,6 +27,6 @@
           La zona horaria antes del cambio es {{ datos_zona_horaria.diff.before.name }} y la hora es {{ hora_actual.stdout_lines }}
           La zona horaria despues del cambio es {{ datos_zona_horaria.diff.after.name }} y la hora es {{ hora_moscow.stdout_lines }}
 
-    - name: "Volver a la zona horaria iniciarl"
+    - name: "Volver a la zona horaria inicial"
       timezone:
         name: "{{ datos_zona_horaria.diff.before.name }}"

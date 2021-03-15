@@ -1,5 +1,5 @@
 ---
-- name: "Demostracion de una delegacion de handlers"
+- name: "Demostracion de handlers"
   hosts: nodos
   vars:
     paquetes:

@@ -1,0 +1,21 @@
+---
+- name: "Demostracion de errores"
+  hosts: nodos
+  tasks:
+    - name: "Instalacion de servico httpd"
+      yum:
+        name: httpd
+        state: present
+      register: comprobacion
+    
+    - name: "Instalacion de paqueteria"
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ paquetes }}"
+
+    - name: "Cuando la memoria se menor a 2Gb nos indicara un fallo"
+      shell: "cat /proc/meminfo|grep -i memtotal|awk '{print $2/1024/1024}'"
+      register: memoria
+
+      
