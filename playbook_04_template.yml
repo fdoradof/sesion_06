@@ -21,6 +21,15 @@
         path: "/var/www/html/ansible-service-{{ item }}"
         state: directory
       loop: "{{ http_ports }}"
+    
+    - name: "Habilitar puertos en el firewalld"
+      firewalld:
+        port: "{{ item }}/tcp"
+        permanent: yes
+        immediate: yes
+        state: enabled
+      loop: "{{ http_ports }}"
+        
 
 
   handlers:
