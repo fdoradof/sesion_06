@@ -1,5 +1,6 @@
 ---
 - name: "Demostracion de handlers"
+  force_handlers: yes
   hosts: nodos
   vars:
     paquetes:
@@ -15,7 +16,11 @@
         name: "{{ item }}"
         state: present
       loop: "{{ paquetes }}"
-
+      notify: "arrancar_apache"
+    
+    - name: "Forazar el reinicio de apache"
+      meta: flush_handlers
+      
     - name: "Habilitar el firewall"
       firewalld:
         service: "{{ item }}"
@@ -48,15 +53,7 @@
           <h1>Success! The example.com virtual host is working!</h1>
           </body>
           </html>
-
-    - name: "Iniciamos el servicio httpd (tambien con el arranque del servidor)"
-      service:
-        name: httpd
-        enabled: yes
-        state: restarted
-
-    - name: "Reinicio de los nodos"
-      reboot:
+      notify: "reinicio_servicios_apache"
    
     - name: "Comprobamos que el servidor ha levando correctamente"
       wait_for:
@@ -64,3 +61,20 @@
         port: 22 
         state: started
       delegate_to: localhost
+
+  handlers:
+    - name: "arrancar_apache"
+      service:
+        name: httpd
+        state: started
+
+    - name: "reinicio_apche"
+      service:
+        name: httpd
+        enabled: yes
+        state: restarted
+      listen: "reinicio_servicios_apache"
+    
+    - name: "Reinicio de los nodos"
+      reboot:
+      listen: "reinicio_servicios_apache"
